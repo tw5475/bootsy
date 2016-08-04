@@ -88,8 +88,11 @@ module Bootsy
 
     def set_gallery_id(container, options)
       return unless enable_uploader?(options)
-
-      container.bootsy_image_gallery_id ||= Bootsy::ImageGallery.create!.id
+      unless container.bootsy_image_gallery_id
+          bi = Bootsy::ImageGallery.new
+          bi.save!(validate: false)
+          container.bootsy_image_gallery_id = bi.id
+      end
       options.deep_merge!(
         data: { gallery_id: container.bootsy_image_gallery_id }
       )
