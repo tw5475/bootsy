@@ -20,7 +20,7 @@ module Bootsy
     end
 
     def create
-      @gallery.save!
+      @gallery.save!(validate: false)
       @image = @gallery.images.new(image_params)
 
       create_and_respond
